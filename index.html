@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="sitelock-site-verification" content="1373" />
+<meta name="description" content="Homepage of electronic group ev ree wuhn"/>
+<meta keywords="electronic, hip hop, indie, independent, ahtmospheric, dreamy, Toronto, everyone, band, ev ree wuhn, evreewuhn"/>
+<meta property="og:title" content="ev ree wuhn" />
+<meta property="og:type" content="band" />
+<meta property="og:url" content="http://www.evreewuhn.com" />
+<meta property="og:image" content="http://www.evreewuhn.com/images/background.jpg" />
+<meta property="og:site_name" content="ev ree wuhn" />
+<style>
+
+body {
+  margin: 0;
+  padding: 0;
+}
+iframe {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -150px;
+  margin-top: -80px;
+  width: 300px;
+  height: 160px;
+}
+nav.socialMedia {
+  position: absolute;
+  right: 20px;
+}
+i {
+  font-size: 25px;
+  padding: 10px;
+}
+line {
+  stroke: #ecf0f1;
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+}
+@media screen and (max-width: 921px) {
+  #timeout {
+    top: 155px!important;
+  }
+}
+@media screen and (max-width: 469px) {
+  h1 {
+    width: 85%;
+    left: inherit!important;
+    right: 0!important;
+  }
+}
+</style>
+<body>
+<link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<nav class="socialMedia">
+  <a href="https://www.facebook.com/evreewuhn"><i class="fa fa-facebook"></i></a>
+  <a href="https://twitter.com/evreewuhn"><i class="fa fa-twitter"></i></a>
+  <a href="https://soundcloud.com/evreewuhn"><i class="fa fa-soundcloud"></i></a>
+  <a href="https://www.youtube.com/channel/UCNueELH2MGWkpEypU4p7ttw"><i class="fa fa-youtube-play"></i></a>
+  <a href="/evreewuhn-ep.html"><i id="downloads" class="fa fa-cloud-download"></i></a>
+</nav>
+<h1 style="position: absolute; top: 50px; left: 50%; font-family: Lato; font-size: 50px; text-transform: uppercase; text-align: center; letter-spacing: 12px; font-weight: 400; color: #fff;">ev ree wuhn</h1>
+<h1 id="timeout" style="position: absolute; top: 100px; left: 50%; font-family: Lato; font-size: 50px; text-transform: uppercase; text-align: center; letter-spacing: 12px; font-weight: 400; color: #fff;">Found You</h1>
+<iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/163674501%3Fsecret_token%3Ds-QVEqs&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>
+<script>
+
+function fade(element) {
+    var op = 0.05;  // initial opacity
+    var timer = setInterval(function () {
+        if (op >= 1){
+            clearInterval(timer);
+        }
+        element.style.opacity = op;
+        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+        op += op * 0.1;
+    }, 50);
+}
+
+var foundYou = document.getElementById("timeout");
+
+fade(foundYou);
+
+var lineColors = ['9b59b6', 'ecf0f1', '2980b9', 'c0392b', '1abc9c'];
+
+// shuffle array
+function shuffle(o){ //v1.0
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+};
+
+/**
+ * Returns a random number between min (inclusive) and max (exclusive)
+ */
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+// give us a random number
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+var size = {
+  width: window.innerWidth || document.body.clientWidth,
+  height: window.innerHeight || document.body.clientHeight
+}
+
+var width = size.width,
+    height = size.height,
+    delay = 500,
+    duration = 150;
+
+// builds animation and lines
+var sample = poissonDiscSampler(width, height, 175);
+
+// create wrapper for svg
+var wrapper = d3.select("body").append("div")
+  .attr("id", "wrapper")
+  .attr("width", width)
+  .attr("height", height)
+  .style("background-color", "#e74c3c")
+  // .style("position", 'absolute')
+  // .style("left", '50%')
+  // .style("top", "50%")
+  // .style("margin-left", "-175px")
+  // .style("margin-top", "-175px");
+
+var svg = d3.select("#wrapper").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var s;
+
+i = 0;
+h = 1;
+while (s = sample()) {
+  if (!s[1]) continue;
+  i++;
+  h++;
+  if (i === 2) { i = 0; }
+  if (h === 2) { i = 1; }
+  svg.append("line")
+      // .attr("data-depth")
+      .attr("x1", s[1][i])
+      .attr("y1", s[1][1])
+      .attr("x2", s[1][0])
+      .attr("y2", s[1][i])
+      .style("stroke-opacity", 0)
+      .style('stroke-width', getRandomArbitrary(0, 5))
+      .style("stroke", '#' + shuffle(lineColors)[0])
+    .transition()
+      .delay(s[0].depth * duration + delay)
+      .duration(duration)
+      .ease("linear")
+      .style("stroke-opacity", getRandomArbitrary(.5, 1))
+      .attr("x2", s[0][h])
+      .attr("y2", s[0][i]);
+}
+
+// Based on https://www.jasondavies.com/poisson-disc/
+function poissonDiscSampler(width, height, radius) {
+  var k = 75, // maximum number of samples before rejection
+      radius2 = radius * radius,
+      R = 2 * radius2,
+      cellSize = radius * Math.SQRT1_2,
+      gridWidth = Math.ceil(width / cellSize),
+      gridHeight = Math.ceil(height / cellSize),
+      grid = new Array(gridWidth * gridHeight),
+      queue = [],
+      queueSize = 0,
+      sampleSize = 0;
+
+  return function() {
+    if (!sampleSize) {
+      var s1 = [Math.random() * width, Math.random() * height];
+      s1.depth = 0;
+      return sample(s1, null);
+    }
+
+    // Pick a random existing sample and remove it from the queue.
+    while (queueSize) {
+      var i = Math.random() * queueSize | 0,
+          s = queue[i];
+
+      // Make a new candidate between [radius, 2 * radius] from the existing sample.
+      for (var j = 0; j < k; ++j) {
+        var a = 2 * Math.PI * Math.random(),
+            r = Math.sqrt(Math.random() * R + radius2),
+            x = s[0] + r * Math.cos(a),
+            y = s[1] + r * Math.sin(a);
+
+        // Reject candidates that are outside the allowed extent,
+        // or closer than 2 * radius to any existing sample.
+        if (0 <= x && x < width && 0 <= y && y < height && far(x, y)) return sample([x, y], s);
+      }
+
+      queue[i] = queue[--queueSize];
+      queue.length = queueSize;
+    }
+  };
+
+  function far(x, y) {
+    var i = x / cellSize | 0,
+        j = y / cellSize | 0,
+        i0 = Math.max(i - 7, 0),
+        j0 = Math.max(j - 7, 0),
+        i1 = Math.min(i + 3, gridWidth),
+        j1 = Math.min(j + 3, gridHeight);
+
+    for (j = j0; j < j1; ++j) {
+      var o = j * gridWidth;
+      for (i = i0; i < i1; ++i) {
+        if (s = grid[o + i]) {
+          var s,
+              dx = s[0] - x,
+              dy = s[1] - y;
+          if (dx * dx + dy * dy < radius2) return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  function sample(s1, s0) {
+    if (s0) s1.depth = s0.depth + 1;
+    queue.push(s1);
+    grid[gridWidth * (s1[1] / cellSize | 0) + (s1[0] / cellSize | 0)] = s1;
+    ++sampleSize;
+    ++queueSize;
+    return [s1, s0];
+  }
+}
+
+</script>
